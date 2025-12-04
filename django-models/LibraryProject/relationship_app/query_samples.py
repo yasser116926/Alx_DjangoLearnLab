@@ -20,7 +20,8 @@ def get_books_by_author(author_name):
 # -----------------------------------------
 def get_librarian_for_library(library_name):
     library = Library.objects.get(name=library_name)
-    return library.librarian  # assuming OneToOne: Library → Librarian
+    librarian = Librarian.objects.get(library=library)
+    return librarian
 
 
 # -----------------------------------------
