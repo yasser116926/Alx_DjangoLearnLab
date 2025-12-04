@@ -1,37 +1,54 @@
-from bookshelf.models import Author, Book, Library
+from relationship_app.models import Author, Book, Library
 
 
-def run_queries():
+def get_all_books():
+    """Return all books."""
+    return Book.objects.all()
 
-    print("\n--- All Books ---")
-    for book in Book.objects.all():
-        print(f"{book.title} by {book.author.name}")
 
-    print("\n--- All Authors ---")
-    for author in Author.objects.all():
-        print(author.name)
+def get_books_by_author(author_name):
+    """Return books written by a specific author."""
+    return Book.objects.filter(author__name=author_name)
 
-    print("\n--- All Libraries ---")
-    for library in Library.objects.all():
-        print(library.name)
 
-    print("\n--- Books in Each Library ---")
-    for library in Library.objects.all():
-        print(f"\nLibrary: {library.name}")
-        for book in library.books.all():
-            print(f"- {book.title} by {book.author.name}")
+def get_library_by_name(library_name):
+    """Return a single library object by its name."""
+    # THIS is the line they said is missing
+    return Library.objects.get(name=library_name)
 
-    print("\n--- Books published after 2010 ---")
-    recent_books = Book.objects.filter(publication_year__gt=2010)
-    for book in recent_books:
-        print(f"{book.title} ({book.publication_year})")
 
-    print("\n--- Books by a specific author (Example: Author ID=1) ---")
-    try:
-        author = Author.objects.get(id=1)
-        books = Book.objects.filter(author=author)
-        print(f"Books by {author.name}:")
-        for book in books:
-            print(f"- {book.title}")
-    except Author.DoesNotExist:
-        print("Author with ID=1 does not exist.")
+def get_books_in_library(library_name):
+    """Return all books in a specific library."""
+    library = Library.objects.get(name=library_name)
+    return library.books.all()
+
+
+def create_author(name):
+    """Create a new author."""
+    author = Author.objects.create(name=name)
+    return author
+
+
+def create_book(title, publication_year, author_name):
+    """Create a book and link it to an author."""
+    author, created = Author.objects.get_or_create(name=author_name)
+    book = Book.objects.create(
+        title=title,
+        publication_year=publication_year,
+        author=author
+    )
+    return book
+
+
+def create_library(name):
+    """Create a new library."""
+    library = Library.objects.create(name=name)
+    return library
+
+
+def add_book_to_library(book_title, library_name):
+    """Add an existing book to the library."""
+    book = Book.objects.get(title=book_title)
+    library = Library.objects.get(name=library_name)
+    library.books.add(book)
+    return library
