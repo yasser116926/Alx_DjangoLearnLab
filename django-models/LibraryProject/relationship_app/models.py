@@ -3,10 +3,6 @@ from django.conf import settings
 User = settings.AUTH_USER_MODEL
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.contrib.auth.decorators import permission_required
-from django.shortcuts import render, redirect, get_object_or_404
-from .models import Book
-
 
 class UserProfile(models.Model):
     ROLE_CHOICES = [
@@ -63,39 +59,3 @@ class Librarian(models.Model):
 
     def __str__(self):
         return self.name
-
-
-@permission_required('relationship_app.can_add_book')
-def add_book(request):
-    if request.method == 'POST':
-        title = request.POST.get('title')
-        author = request.POST.get('author')
-        Book.objects.create(title=title, author=author)
-        return redirect('book_list')
-
-    return render(request, 'relationship_app/add_book.html')
-
-
-
-@permission_required('relationship_app.can_change_book')
-def edit_book(request, book_id):
-    book = get_object_or_404(Book, id=book_id)
-
-    if request.method == 'POST':
-        book.title = request.POST.get('title')
-        book.author = request.POST.get('author')
-        book.save()
-        return redirect('book_list')
-
-    return render(request, 'relationship_app/edit_book.html', {'book': book})
-
-
-
-@permission_required('relationship_app.can_delete_book')
-def delete_book(request, book_id):
-    book = get_object_or_404(Book, id=book_id)
-    book.delete()
-    return redirect('book_list')
-
-
-

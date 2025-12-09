@@ -1,16 +1,9 @@
-from django.contrib import admin
-from django.urls import path, include
-from django.shortcuts import redirect
-from .views import list_books, LibraryDetailView
-
-
-def redirect_to_books(request):
-    return redirect('list_books')
+from django.contrib import admin, list_books, LibraryDetailView
+from django.urls import path
 
 urlpatterns = [
-    path('', redirect_to_books, name='root_redirect'),  
     path('admin/', admin.site.urls),
-    path('books/', include('relationship_app.urls')),
-    path("library/<int:pk>/", LibraryDetailView.as_view(), name="library_detail"),
-
+    path('books/', list_books, name='list_books'),
+    path('library/<int:pk>/', LibraryDetailView.as_view(), name='library_detail'),
+    path('', include('relationship_app.urls')),
 ]
