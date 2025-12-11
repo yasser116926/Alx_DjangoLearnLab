@@ -4,6 +4,12 @@ from .views import list_books, LibraryDetailView
 from .views import UserLoginView, UserLogoutView, registe
 from .views import add_book
 from .views import edit_book
+
+from .views import (
+    list_books, LibraryDetailView, register,
+    admin_view, librarian_view, member_view,
+    add_book, edit_book, delete_book
+)
 app_name = 'relationship_app'
 
 from django.contrib.auth.views import LoginView, LogoutView
