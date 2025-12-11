@@ -28,7 +28,8 @@ urlpatterns = [
     path('member/', member_view, name='member_view'),
 
     # Secured Book actions
-    path('books/add/', add_book, name='add_book'),
-    path('books/edit/<int:pk>/', edit_book, name='edit_book'),
+    path('add_book/', add_book, name='add_book_alt'),
+    path('edit_book/<int:pk>/', edit_book, name='edit_book_alt'),
+
     path('books/delete/<int:pk>/', delete_book, name='delete_book'),
 ]
