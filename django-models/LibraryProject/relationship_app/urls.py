@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import view
-from .views import add_book
-from .views import edit_book
+from .views import add_book, LibraryDetailView
+from .views import edit_book, LibraryDetailView
 
 from .views import list_books
 from .views import (
