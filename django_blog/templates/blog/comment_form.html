@@ -1,0 +1,7 @@
+<!-- comment_form.html -->
+<h2>Edit your comment</h2>
+<form method="post">
+  {% csrf_token %} {{ form.as_p }}
+  <button type="submit">Save changes</button>
+</form>
+<a href="{% url 'post-detail' pk=object.post.pk %}#comments">Back to post</a>
