@@ -8,7 +8,6 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import user_passes_test
-from .forms import BookForm # type: ignore
 from django.contrib.auth.decorators import permission_required
 # Helper functions to check user role
 def is_admin(user):
